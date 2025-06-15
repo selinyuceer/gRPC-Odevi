@@ -1,0 +1,189 @@
+syntax = "proto3";
+
+package university;
+
+option go_package = "github.com/university/proto";
+
+// Loan status enum
+enum LoanStatus {
+  LOAN_STATUS_UNSPECIFIED = 0;
+  ONGOING = 1;
+  RETURNED = 2;
+  LATE = 3;
+}
+
+// Book message
+message Book {
+  string id = 1;
+  string title = 2;
+  string author = 3;
+  string isbn = 4;
+  string publisher = 5;
+  int32 page_count = 6;
+  int32 stock = 7;
+}
+
+// Student message
+message Student {
+  string id = 1;
+  string name = 2;
+  string student_number = 3;
+  string email = 4;
+  bool is_active = 5;
+}
+
+// Loan message
+message Loan {
+  string id = 1;
+  string student_id = 2;
+  string book_id = 3;
+  string loan_date = 4;
+  string return_date = 5;
+  LoanStatus status = 6;
+}
+
+// Book service messages
+message ListBooksRequest {
+  int32 page_size = 1;
+  string page_token = 2;
+}
+
+message ListBooksResponse {
+  repeated Book books = 1;
+  string next_page_token = 2;
+}
+
+message GetBookRequest {
+  string id = 1;
+}
+
+message GetBookResponse {
+  Book book = 1;
+}
+
+message CreateBookRequest {
+  Book book = 1;
+}
+
+message CreateBookResponse {
+  Book book = 1;
+}
+
+message UpdateBookRequest {
+  Book book = 1;
+}
+
+message UpdateBookResponse {
+  Book book = 1;
+}
+
+message DeleteBookRequest {
+  string id = 1;
+}
+
+message DeleteBookResponse {
+  bool success = 1;
+}
+
+// Student service messages
+message ListStudentsRequest {
+  int32 page_size = 1;
+  string page_token = 2;
+}
+
+message ListStudentsResponse {
+  repeated Student students = 1;
+  string next_page_token = 2;
+}
+
+message GetStudentRequest {
+  string id = 1;
+}
+
+message GetStudentResponse {
+  Student student = 1;
+}
+
+message CreateStudentRequest {
+  Student student = 1;
+}
+
+message CreateStudentResponse {
+  Student student = 1;
+}
+
+message UpdateStudentRequest {
+  Student student = 1;
+}
+
+message UpdateStudentResponse {
+  Student student = 1;
+}
+
+message DeleteStudentRequest {
+  string id = 1;
+}
+
+message DeleteStudentResponse {
+  bool success = 1;
+}
+
+// Loan service messages
+message ListLoansRequest {
+  int32 page_size = 1;
+  string page_token = 2;
+}
+
+message ListLoansResponse {
+  repeated Loan loans = 1;
+  string next_page_token = 2;
+}
+
+message GetLoanRequest {
+  string id = 1;
+}
+
+message GetLoanResponse {
+  Loan loan = 1;
+}
+
+message BorrowBookRequest {
+  string student_id = 1;
+  string book_id = 2;
+}
+
+message BorrowBookResponse {
+  Loan loan = 1;
+}
+
+message ReturnBookRequest {
+  string loan_id = 1;
+}
+
+message ReturnBookResponse {
+  Loan loan = 1;
+}
+
+// Services
+service BookService {
+  rpc ListBooks(ListBooksRequest) returns (ListBooksResponse);
+  rpc GetBook(GetBookRequest) returns (GetBookResponse);
+  rpc CreateBook(CreateBookRequest) returns (CreateBookResponse);
+  rpc UpdateBook(UpdateBookRequest) returns (UpdateBookResponse);
+  rpc DeleteBook(DeleteBookRequest) returns (DeleteBookResponse);
+}
+
+service StudentService {
+  rpc ListStudents(ListStudentsRequest) returns (ListStudentsResponse);
+  rpc GetStudent(GetStudentRequest) returns (GetStudentResponse);
+  rpc CreateStudent(CreateStudentRequest) returns (CreateStudentResponse);
+  rpc UpdateStudent(UpdateStudentRequest) returns (UpdateStudentResponse);
+  rpc DeleteStudent(DeleteStudentRequest) returns (DeleteStudentResponse);
+}
+
+service LoanService {
+  rpc ListLoans(ListLoansRequest) returns (ListLoansResponse);
+  rpc GetLoan(GetLoanRequest) returns (GetLoanResponse);
+  rpc BorrowBook(BorrowBookRequest) returns (BorrowBookResponse);
+  rpc ReturnBook(ReturnBookRequest) returns (ReturnBookResponse);
+} 
